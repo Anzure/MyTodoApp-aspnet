@@ -1,0 +1,11 @@
+@host = http://localhost:5035
+
+### Get all todos
+GET {{host}}/api/todos
+Accept: application/json
+
+### Get todo by id
+GET {{host}}/api/todos/1
+Accept: application/json
+
+###

@@ -1,0 +1,13 @@
+﻿@host = http://localhost:5035
+
+### Get weather forecast
+GET {{host}}/api/weather/forecast
+Accept: application/xml
+
+### Get hello world test
+GET {{host}}/api/weather/hello
+Accept: text/plain
+
+### Get ping pong test
+GET {{host}}/api/weather/ping
+Accept: application/json

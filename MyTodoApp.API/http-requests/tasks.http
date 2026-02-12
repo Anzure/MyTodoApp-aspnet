@@ -1,0 +1,7 @@
+﻿@host = http://localhost:5035
+
+### Get todo tasks
+GET {{host}}/api/todos/1/tasks
+Accept: application/json
+
+###
