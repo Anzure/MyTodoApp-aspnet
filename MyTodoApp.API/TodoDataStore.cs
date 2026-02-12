@@ -14,25 +14,39 @@ public class TodoDataStore
             {
                 Id = 1,
                 Title = "Rydde garasjen",
-                Priority = Priority.Low
+                Priority = Priority.Low,
+                IsDone = false,
             },
             new TodoDto()
             {
                 Id = 2,
                 Title = "Ta oppvasken",
                 DueDate = DateTime.Today,
+                Priority = Priority.High
             },
             new TodoDto()
             {
                 Id = 3,
                 Title = "Handle matvarer",
-                Description = "Ost, Skinke, Kjøkkenpapir"
+                Tasks = new List<TaskDto>()
+                {
+                    new TaskDto() {
+                        Id = 1,
+                        Description = "Gulost"
+                    },
+                    new TaskDto()
+                    {
+                        Id = 2,
+                        Description = "Skinke"
+                    }
+                }
             },
             new TodoDto()
             {
                 Id = 4,
                 Title = "Hente pakke",
-                IsDone = true
+                IsDone = true,
+                Description = "Luftfukter"
             }
         };
     }

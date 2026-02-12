@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyTodoApp.API.Controllers;
@@ -12,27 +13,29 @@ public class WeatherController : ControllerBase
     ];
 
     [HttpGet("forecast")]
-    public IEnumerable<WeatherForecast> GetForecast()
+    public ActionResult<IEnumerable<WeatherForecast>> GetForecast()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        var forecast = Enumerable.Range(1, 5)
+            .Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        return Ok(forecast);
     }
     
-    [HttpGet("helloworld")]
-    public String GetHelloWorld()
+    [HttpGet("hello")]
+    public ActionResult<String> GetHelloWorld()
     {
-        return "Hello World";
+        return Ok("Hello World!");
     }
     
     [HttpGet("ping")]
-    public String getPingPong()
+    public JsonResult getPingPong()
     {
-        return "pong";
+        return new JsonResult(new { ping = "pong" });
     }
     
 }

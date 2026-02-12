@@ -8,5 +8,6 @@ public class TodoDto
     public bool IsDone { get; set; } = false;
     public DateTime? DueDate { get; set; }
     public Priority Priority { get; set; } =  Priority.Normal;
+    public ICollection<TaskDto> Tasks { get; set; } = new List<TaskDto>();
 
 }

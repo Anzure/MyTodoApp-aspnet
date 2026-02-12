@@ -3,7 +3,7 @@
 namespace MyTodoApp.API.Controllers;
 
 [ApiController]
-[Route("api/todo")]
+[Route("api/todos")]
 public class TodoController : ControllerBase
 {
     
@@ -14,15 +14,15 @@ public class TodoController : ControllerBase
         return Ok(todoItems);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<TodoDto> GetTodo(int id)
+    [HttpGet("{todoId}")]
+    public ActionResult<TodoDto> GetTodo(int todoId)
     {
-        var todoItem = TodoDataStore.Instance.Todos
-            .FirstOrDefault(t => t.Id == id);
+        TodoDto? todoItem = TodoDataStore.Instance.Todos
+            .FirstOrDefault(t => t.Id == todoId);
 
         if (todoItem == null)
         {
-            return NotFound();
+            return NotFound("Todo item not found by ID: " + todoId);
         }
         
         return Ok(todoItem);
