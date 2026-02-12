@@ -15,7 +15,7 @@ public class TaskController : Controller
 
         if (todoItem == null)
         {
-            return NotFound("Todo item not found by ID: " + todoId);
+            return NotFound();
         }
 
         // Return tasks
@@ -32,7 +32,7 @@ public class TaskController : Controller
 
         if (todoItem == null)
         {
-            return NotFound("Todo item not found by ID: " + todoId);
+            return NotFound();
         }
         
         // Find and return task
@@ -41,7 +41,7 @@ public class TaskController : Controller
 
         if (taskDto == null)
         {
-            return NotFound("Task not found by ID: " + taskId);
+            return NotFound();
         }
         
         return Ok(taskDto);

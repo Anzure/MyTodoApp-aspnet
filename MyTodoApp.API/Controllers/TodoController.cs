@@ -22,7 +22,7 @@ public class TodoController : ControllerBase
 
         if (todoItem == null)
         {
-            return NotFound("Todo item not found by ID: " + todoId);
+            return NotFound();
         }
         
         return Ok(todoItem);
