@@ -1,7 +1,11 @@
 ﻿@host = http://localhost:5035
 
 ### Get todo tasks
-GET {{host}}/api/todos/1/tasks
-Accept: application/json
+GET {{host}}/api/todos/3/tasks
+Accept: application/xml
+
+### Get task by id
+GET {{host}}/api/todos/3/tasks/1
+Accept: application/xml
 
 ###
