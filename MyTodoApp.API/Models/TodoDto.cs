@@ -1,6 +1,6 @@
 ﻿namespace MyTodoApp.API;
 
-public class TaskDto
+public class TodoDto
 {
     public int Id { get; set; }
     public string Title { get; set; }

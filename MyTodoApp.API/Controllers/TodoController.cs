@@ -4,18 +4,18 @@ namespace MyTodoApp.API.Controllers;
 
 [ApiController]
 [Route("api/todo")]
-public class TaskController : ControllerBase
+public class TodoController : ControllerBase
 {
     
     [HttpGet]
-    public ActionResult<IEnumerable<TaskDto>> GetTodos()
+    public ActionResult<IEnumerable<TodoDto>> GetTodos()
     {
-        List<TaskDto> todoItems = TodoDataStore.Instance.Todos;
+        List<TodoDto> todoItems = TodoDataStore.Instance.Todos;
         return Ok(todoItems);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TaskDto> GetTodo(int id)
+    public ActionResult<TodoDto> GetTodo(int id)
     {
         var todoItem = TodoDataStore.Instance.Todos
             .FirstOrDefault(t => t.Id == id);

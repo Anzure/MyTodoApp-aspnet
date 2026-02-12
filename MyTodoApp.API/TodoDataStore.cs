@@ -2,33 +2,33 @@
 
 public class TodoDataStore
 {
-    public List<TaskDto> Todos { get; set; }
+    public List<TodoDto> Todos { get; set; }
     
     public static TodoDataStore Instance { get; } = new TodoDataStore();
 
     public TodoDataStore()
     {
-        Todos = new List<TaskDto>()
+        Todos = new List<TodoDto>()
         {
-            new TaskDto()
+            new TodoDto()
             {
                 Id = 1,
                 Title = "Rydde garasjen",
                 Priority = Priority.Low
             },
-            new TaskDto()
+            new TodoDto()
             {
                 Id = 2,
                 Title = "Ta oppvasken",
                 DueDate = DateTime.Today,
             },
-            new TaskDto()
+            new TodoDto()
             {
                 Id = 3,
                 Title = "Handle matvarer",
                 Description = "Ost, Skinke, Kjøkkenpapir"
             },
-            new TaskDto()
+            new TodoDto()
             {
                 Id = 4,
                 Title = "Hente pakke",
