@@ -6,11 +6,21 @@ namespace MyTodoApp.API.Controllers;
 [Route("api/todos/{todoId}/tasks")]
 public class TaskController : Controller
 {
+    
+    private readonly ILogger<TaskController> _logger;
+    private readonly TodoDataStore _todoDataStore;
+
+    public TaskController(ILogger<TaskController> logger, TodoDataStore todoDataStore)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _todoDataStore = todoDataStore ?? throw new ArgumentNullException(nameof(todoDataStore));
+    }
+    
     [HttpGet]
     public ActionResult<IEnumerable<TaskDto>> GetTasks(int todoId)
     {
         // Find todo item
-        TodoDto? todoItem = TodoDataStore.Instance.Todos
+        TodoDto? todoItem = _todoDataStore.Todos
             .FirstOrDefault(todo => todo.Id == todoId);
 
         if (todoItem == null)
@@ -27,7 +37,7 @@ public class TaskController : Controller
     public ActionResult<TaskDto> GetTask(int todoId, int taskId)
     {
         // Find todo item
-        TodoDto? todoItem = TodoDataStore.Instance.Todos
+        TodoDto? todoItem = _todoDataStore.Todos
             .FirstOrDefault(todo => todo.Id == todoId);
 
         if (todoItem == null)

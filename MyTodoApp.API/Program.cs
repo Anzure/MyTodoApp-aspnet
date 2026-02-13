@@ -1,3 +1,4 @@
+using MyTodoApp.API;
 using MyTodoApp.API.Services;
 using Serilog;
 
@@ -23,6 +24,8 @@ builder.Services.AddTransient<IMailService, LocalMailService>();
 #else
 builder.Services.AddTransient<IMailService, CloudMailService>();
 #endif
+
+builder.Services.AddSingleton<TodoDataStore>();
 
 var app = builder.Build();
 

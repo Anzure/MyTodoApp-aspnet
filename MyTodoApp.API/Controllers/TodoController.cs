@@ -10,24 +10,26 @@ public class TodoController : ControllerBase
 
     private readonly ILogger<TodoController> _logger;
     private readonly IMailService _mailService;
+    private readonly TodoDataStore _todoDataStore;
 
-    public TodoController(ILogger<TodoController> logger, IMailService mailService)
+    public TodoController(ILogger<TodoController> logger, IMailService mailService, TodoDataStore todoDataStore)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
+        _todoDataStore = todoDataStore ?? throw new ArgumentNullException(nameof(todoDataStore));
     }
     
     [HttpGet]
     public ActionResult<IEnumerable<TodoDto>> GetTodos()
     {
-        List<TodoDto> todoItems = TodoDataStore.Instance.Todos;
+        List<TodoDto> todoItems = _todoDataStore.Todos;
         return Ok(todoItems);
     }
 
     [HttpGet("{id}")]
     public ActionResult<TodoDto> GetTodo(int id)
     {
-        TodoDto? todoItem = TodoDataStore.Instance.Todos
+        TodoDto? todoItem = _todoDataStore.Todos
             .FirstOrDefault(t => t.Id == id);
 
         if (todoItem == null)
@@ -42,12 +44,12 @@ public class TodoController : ControllerBase
     [HttpPost]
     public ActionResult<TodoDto> CreateTodo([FromBody] TodoDto todoDto)
     {
-        if (TodoDataStore.Instance.Todos.Exists(todo => todo.Id == todoDto.Id))
+        if (_todoDataStore.Todos.Exists(todo => todo.Id == todoDto.Id))
         {
             return Conflict();
         }
         
-        TodoDataStore.Instance.Todos.Add(todoDto);
+        _todoDataStore.Todos.Add(todoDto);
         
         return CreatedAtAction(
             nameof(GetTodo),
@@ -58,7 +60,7 @@ public class TodoController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult UpdateTodo(int id, [FromBody] TodoDto todoDto)
     {
-        if (!TodoDataStore.Instance.Todos.Exists(t => t.Id == id))
+        if (!_todoDataStore.Todos.Exists(t => t.Id == id))
         {
             return NotFound();
         }
@@ -70,7 +72,7 @@ public class TodoController : ControllerBase
     [HttpDelete("{id}")]
     public ActionResult DeleteTodo(int id)
     {
-        TodoDto? todoItem = TodoDataStore.Instance.Todos
+        TodoDto? todoItem = _todoDataStore.Todos
             .FirstOrDefault(t => t.Id == id);
         
         if (todoItem == null)
@@ -78,7 +80,7 @@ public class TodoController : ControllerBase
             return NotFound();
         }
 
-        TodoDataStore.Instance.Todos.Remove(todoItem);
+        _todoDataStore.Todos.Remove(todoItem);
         _mailService.SendMail("Todo item deleted", $"The todo item with id {id} has been deleted.");
         return NoContent();
     }

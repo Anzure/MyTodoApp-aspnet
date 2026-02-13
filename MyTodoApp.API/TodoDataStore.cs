@@ -4,7 +4,7 @@ public class TodoDataStore
 {
     public List<TodoDto> Todos { get; set; }
     
-    public static TodoDataStore Instance { get; } = new TodoDataStore();
+    //public static TodoDataStore Instance { get; } = new TodoDataStore();
 
     public TodoDataStore()
     {
