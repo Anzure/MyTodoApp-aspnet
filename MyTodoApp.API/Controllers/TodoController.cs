@@ -6,6 +6,13 @@ namespace MyTodoApp.API.Controllers;
 [Route("api/todos")]
 public class TodoController : ControllerBase
 {
+
+    private readonly ILogger<TodoController> _logger;
+
+    public TodoController(ILogger<TodoController> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
     
     [HttpGet]
     public ActionResult<IEnumerable<TodoDto>> GetTodos()
@@ -22,6 +29,7 @@ public class TodoController : ControllerBase
 
         if (todoItem == null)
         {
+            _logger.LogInformation($"Todo item with id {id} not found.");
             return NotFound();
         }
         
@@ -42,6 +50,33 @@ public class TodoController : ControllerBase
             nameof(GetTodo),
             new { id = todoDto.Id },
             todoDto);
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult UpdateTodo(int id, [FromBody] TodoDto todoDto)
+    {
+        if (!TodoDataStore.Instance.Todos.Exists(t => t.Id == id))
+        {
+            return NotFound();
+        }
+        
+        //todo
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult DeleteTodo(int id)
+    {
+        TodoDto? todoItem = TodoDataStore.Instance.Todos
+            .FirstOrDefault(t => t.Id == id);
+        
+        if (todoItem == null)
+        {
+            return NotFound();
+        }
+
+        TodoDataStore.Instance.Todos.Remove(todoItem);
+        return NoContent();
     }
     
 }

@@ -1,18 +1,24 @@
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/todoapp-api.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
 });
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
