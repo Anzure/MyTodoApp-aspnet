@@ -1,3 +1,4 @@
+using MyTodoApp.API.Services;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -16,6 +17,12 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddOpenApi();
+
+#if DEBUG
+builder.Services.AddTransient<IMailService, LocalMailService>();
+#else
+builder.Services.AddTransient<IMailService, CloudMailService>();
+#endif
 
 var app = builder.Build();
 

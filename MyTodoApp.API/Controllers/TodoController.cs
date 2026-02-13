@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyTodoApp.API.Services;
 
 namespace MyTodoApp.API.Controllers;
 
@@ -8,10 +9,12 @@ public class TodoController : ControllerBase
 {
 
     private readonly ILogger<TodoController> _logger;
+    private readonly IMailService _mailService;
 
-    public TodoController(ILogger<TodoController> logger)
+    public TodoController(ILogger<TodoController> logger, IMailService mailService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
     }
     
     [HttpGet]
@@ -76,6 +79,7 @@ public class TodoController : ControllerBase
         }
 
         TodoDataStore.Instance.Todos.Remove(todoItem);
+        _mailService.SendMail("Todo item deleted", $"The todo item with id {id} has been deleted.");
         return NoContent();
     }
     
