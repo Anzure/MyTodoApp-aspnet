@@ -5,15 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters();
-
-builder.Services.AddProblemDetails(options =>
-{
-    options.CustomizeProblemDetails = ctx =>
-    {
-        ctx.ProblemDetails.Extensions.Add("additionalInfo", "See website for support");
-        ctx.ProblemDetails.Extensions.Add("serverName", Environment.MachineName);
-    };
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

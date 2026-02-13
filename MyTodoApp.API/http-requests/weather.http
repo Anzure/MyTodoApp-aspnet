@@ -2,7 +2,7 @@
 
 ### Get weather forecast
 GET {{host}}/api/weather/forecast
-Accept: application/xml
+Accept: application/json
 
 ### Get hello world test
 GET {{host}}/api/weather/hello
