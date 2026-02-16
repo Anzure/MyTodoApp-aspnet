@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MyTodoApp.API;
+using MyTodoApp.API.DbContext;
 using MyTodoApp.API.Services;
 using Serilog;
 
@@ -26,6 +28,10 @@ builder.Services.AddTransient<IMailService, CloudMailService>();
 #endif
 
 builder.Services.AddSingleton<TodoDataStore>();
+
+builder.Services.AddDbContext<TodoDataContext>(dbContextOptions
+    => dbContextOptions.UseSqlite(
+        builder.Configuration["ConnectionStrings:TodoDbConnection"]));
 
 var app = builder.Build();
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyTodoApp.API.Entities;
 
-public class Task
+public class TodoTask
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +16,7 @@ public class Task
     public Todo? TodoItem { get; set; }
     public int TodoId { get; set; }
 
-    public Task(string description)
+    public TodoTask(string description)
     {
         Description = description;
     }
