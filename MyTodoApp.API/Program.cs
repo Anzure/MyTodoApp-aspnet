@@ -33,6 +33,10 @@ builder.Services.AddDbContext<TodoDataContext>(dbContextOptions
     => dbContextOptions.UseSqlite(
         builder.Configuration["ConnectionStrings:TodoDbConnection"]));
 
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

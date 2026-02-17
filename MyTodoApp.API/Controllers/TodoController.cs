@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using MyTodoApp.API.Entities;
+using MyTodoApp.API.Models;
 using MyTodoApp.API.Services;
 
 namespace MyTodoApp.API.Controllers;
@@ -10,24 +13,26 @@ public class TodoController : ControllerBase
 
     private readonly ILogger<TodoController> _logger;
     private readonly IMailService _mailService;
-    private readonly TodoDataStore _todoDataStore;
+    private readonly ITodoRepository _todoRepository;
+    private readonly IMapper _mapper;
 
-    public TodoController(ILogger<TodoController> logger, IMailService mailService, TodoDataStore todoDataStore)
+    public TodoController(ILogger<TodoController> logger, IMailService mailService, ITodoRepository todoRepository, IMapper mapper)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
-        _todoDataStore = todoDataStore ?? throw new ArgumentNullException(nameof(todoDataStore));
+        _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<TodoDto>> GetTodos()
+    public async Task<ActionResult<IEnumerable<TodoWithoutTasksDto>>> GetTodos()
     {
-        List<TodoDto> todoItems = _todoDataStore.Todos;
-        return Ok(todoItems);
+        IEnumerable<Todo> todoItems = await _todoRepository.GetTodosAsync();
+        return Ok(_mapper.Map<IEnumerable<TodoWithoutTasksDto>>(todoItems));
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TodoDto> GetTodo(int id)
+    public ActionResult<Todo> GetTodo(int id)
     {
         TodoDto? todoItem = _todoDataStore.Todos
             .FirstOrDefault(t => t.Id == id);
@@ -42,7 +47,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<TodoDto> CreateTodo([FromBody] TodoDto todoDto)
+    public ActionResult<Todo> CreateTodo([FromBody] TodoDto todoDto)
     {
         if (_todoDataStore.Todos.Exists(todo => todo.Id == todoDto.Id))
         {
