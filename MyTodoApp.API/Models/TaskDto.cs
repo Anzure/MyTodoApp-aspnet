@@ -1,8 +1,8 @@
-﻿namespace MyTodoApp.API;
+﻿namespace MyTodoApp.API.Models;
 
 public class TaskDto
 {
     public int Id { get; set; }
-    public string Description { get; set; }
+    public required string Description { get; set; }
     public bool IsDone { get; set; } = false;
 }

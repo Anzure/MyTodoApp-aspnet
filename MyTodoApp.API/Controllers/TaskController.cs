@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyTodoApp.API.Models;
 
 namespace MyTodoApp.API.Controllers;
 
@@ -8,6 +9,7 @@ public class TaskController : Controller
 {
     
     private readonly ILogger<TaskController> _logger;
+    [Obsolete("Will be removed when repository is implemented.")]
     private readonly TodoDataStore _todoDataStore;
 
     public TaskController(ILogger<TaskController> logger, TodoDataStore todoDataStore)

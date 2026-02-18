@@ -5,7 +5,7 @@ GET {{host}}/api/todos
 Accept: application/json
 
 ### Get todo by id
-GET {{host}}/api/todos/1
+GET {{host}}/api/todos/3?includeTasks=true
 Accept: application/json
 
 ###

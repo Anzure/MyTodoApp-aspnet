@@ -1,4 +1,6 @@
-﻿namespace MyTodoApp.API;
+﻿using MyTodoApp.API.Models;
+
+namespace MyTodoApp.API;
 
 public class TodoDataStore
 {
